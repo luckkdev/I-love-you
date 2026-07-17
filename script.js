@@ -40,26 +40,41 @@ function spawnBurst(originX, originY) {
 
     document.body.appendChild(heart);
     heart.addEventListener('animationend', () => heart.remove());
+    // fallback removal in case animationend never fires
     setTimeout(() => heart.remove(), 1300);
   }
 }
 
 function triggerFromButton() {
   const now = Date.now();
-  if (now - lastBurst < 300) return;
+  if (now - lastBurst < 300) return; // avoid double-fire from overlapping events
   lastBurst = now;
 
   const rect = popBtn.getBoundingClientRect();
   spawnBurst(rect.left + rect.width / 2, rect.top);
 }
 
-popBtn.addEventListener('click', triggerFromButton);
-
-popBtn.addEventListener(
-  'touchend',
-  (e) => {
+if (window.PointerEvent) {
+  // Pointer Events unify mouse, touch and pen into one reliable event,
+  // and fire correctly on both iOS Safari and Android Chrome.
+  popBtn.addEventListener('pointerup', (e) => {
     e.preventDefault();
     triggerFromButton();
-  },
-  { passive: false }
-);
+  });
+} else {
+  // fallback for very old browsers without Pointer Events support
+  popBtn.addEventListener('click', triggerFromButton);
+  popBtn.addEventListener(
+    'touchend',
+    (e) => {
+      e.preventDefault();
+      triggerFromButton();
+    },
+    { passive: false }
+  );
+}
+
+// force-clear any stuck pressed/hover state right after touch ends (iOS quirk)
+popBtn.addEventListener('touchend', () => {
+  popBtn.blur();
+});
