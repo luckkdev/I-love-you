@@ -7,14 +7,12 @@ const ASSETS = [
   './manifest.json',
   './icon-192.png',
   './icon-512.png',
-  './sua-imagem.png'
+  './hellokitty.png'
 ];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      // cache each asset individually so one missing file (like sua-imagem.png)
-      // doesn't stop the whole cache from installing
       return Promise.all(
         ASSETS.map((url) => cache.add(url).catch(() => {}))
       );
