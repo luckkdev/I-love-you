@@ -1,4 +1,3 @@
-// bump this every time you change site files — it forces old caches to be deleted
 const CACHE_NAME = 'te-amo-cache-v2';
 const ASSETS = [
   './',
