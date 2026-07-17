@@ -35,10 +35,6 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// network-first: always try to fetch the latest version from the server first,
-// only falling back to the cached copy if there's no internet connection.
-// (previously this was cache-first, which could keep serving an old script.js
-// forever even after you updated and republished it)
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     fetch(event.request)
