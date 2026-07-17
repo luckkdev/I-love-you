@@ -1,4 +1,9 @@
-// ambient drifting hearts in the background
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+
 const sky = document.getElementById('sky');
 const HEART_COUNT = 14;
 
@@ -13,7 +18,6 @@ for (let i = 0; i < HEART_COUNT; i++) {
   sky.appendChild(h);
 }
 
-// burst of hearts on button click
 const popBtn = document.getElementById('popBtn');
 
 popBtn.addEventListener('click', () => {
