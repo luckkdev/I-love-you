@@ -1,0 +1,221 @@
+:root {
+  --paper: #fffdf8;
+  --ink: #2b2320;
+  --red: #e6483a;
+  --red-deep: #c22f28;
+  --blush: #ffd9de;
+  --sky-top: #ffe8ec;
+  --sky-bottom: #ffc9d6;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: linear-gradient(160deg, var(--sky-top) 0%, var(--sky-bottom) 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* ambient floating hearts behind everything */
+.sky {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.sky .drift {
+  position: absolute;
+  bottom: -10%;
+  color: rgba(230, 72, 58, 0.18);
+  font-size: 28px;
+  animation: float-up linear infinite;
+}
+
+@keyframes float-up {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(-120vh) rotate(25deg); opacity: 0; }
+}
+
+.stage {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  padding: 40px 20px;
+}
+
+/* the note card */
+.card {
+  position: relative;
+  width: min(420px, 86vw);
+  background: var(--paper);
+  border: 3px solid var(--ink);
+  border-radius: 6px;
+  padding: 40px 28px 30px;
+  transform: rotate(-2deg);
+  box-shadow: 10px 14px 0 rgba(43, 35, 32, 0.12);
+  animation: settle 0.7s cubic-bezier(.2,.9,.3,1.2) both;
+}
+
+@keyframes settle {
+  from { transform: rotate(-9deg) translateY(30px); opacity: 0; }
+  to   { transform: rotate(-2deg) translateY(0); opacity: 1; }
+}
+
+.tape {
+  position: absolute;
+  width: 70px;
+  height: 26px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(43,35,32,0.15);
+  top: -14px;
+}
+
+.tape-left { left: 24px; transform: rotate(-8deg); }
+.tape-right { right: 24px; transform: rotate(6deg); }
+
+.card-inner {
+  position: relative;
+  font-family: 'Caveat', cursive;
+  color: var(--ink);
+  text-align: left;
+  line-height: 0.95;
+}
+
+.line {
+  margin: 0;
+  font-weight: 700;
+}
+
+.line-1 { font-size: 62px; }
+.line-2 { font-size: 68px; margin-top: 6px; }
+.line-3 {
+  font-size: 58px;
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.heart-big {
+  font-family: 'Nunito', sans-serif;
+  color: var(--red);
+  font-size: 44px;
+  display: inline-block;
+  animation: beat 1.2s ease-in-out infinite;
+}
+
+@keyframes beat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.16); }
+}
+
+/* mascot image area, positioned like the original reference (peeking bottom-right) */
+.mascot {
+  position: absolute;
+  right: -46px;
+  bottom: -30px;
+  width: 190px;
+  height: auto;
+  filter: drop-shadow(6px 6px 0 rgba(43,35,32,0.08));
+}
+
+.mascot-hint {
+  display: none;
+  position: absolute;
+  right: -20px;
+  bottom: -10px;
+  width: 170px;
+  min-height: 150px;
+  border: 2px dashed rgba(43,35,32,0.35);
+  border-radius: 14px;
+  background: var(--blush);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 6px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  text-align: center;
+  color: var(--ink);
+  padding: 12px;
+}
+
+.mascot-hint span { font-size: 26px; }
+.mascot-hint code {
+  background: rgba(255,255,255,0.7);
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.pop-btn {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.3px;
+  color: var(--paper);
+  background: var(--red);
+  border: none;
+  padding: 13px 26px;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 6px 0 var(--red-deep);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.pop-btn:hover { transform: translateY(-2px); }
+.pop-btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 var(--red-deep);
+}
+
+.pop-btn:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+}
+
+/* bursts spawned by JS */
+.burst-heart {
+  position: fixed;
+  pointer-events: none;
+  color: var(--red);
+  font-size: 22px;
+  z-index: 5;
+  animation: burst 1.1s ease-out forwards;
+}
+
+@keyframes burst {
+  0%   { transform: translate(0, 0) scale(0.6); opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)) scale(1.1); opacity: 0; }
+}
+
+@media (max-width: 420px) {
+  .line-1 { font-size: 48px; }
+  .line-2 { font-size: 54px; }
+  .line-3 { font-size: 44px; }
+  .mascot { width: 130px; right: -20px; bottom: -20px; }
+  .mascot-hint { width: 130px; min-height: 120px; right: -10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .heart-big, .sky .drift, .burst-heart {
+    animation: none !important;
+  }
+}
