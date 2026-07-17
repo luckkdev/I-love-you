@@ -19,12 +19,9 @@ for (let i = 0; i < HEART_COUNT; i++) {
 }
 
 const popBtn = document.getElementById('popBtn');
+let lastBurst = 0;
 
-popBtn.addEventListener('click', () => {
-  const rect = popBtn.getBoundingClientRect();
-  const originX = rect.left + rect.width / 2;
-  const originY = rect.top;
-
+function spawnBurst(originX, originY) {
   for (let i = 0; i < 16; i++) {
     const heart = document.createElement('span');
     heart.className = 'burst-heart';
@@ -43,5 +40,26 @@ popBtn.addEventListener('click', () => {
 
     document.body.appendChild(heart);
     heart.addEventListener('animationend', () => heart.remove());
+    setTimeout(() => heart.remove(), 1300);
   }
-});
+}
+
+function triggerFromButton() {
+  const now = Date.now();
+  if (now - lastBurst < 300) return;
+  lastBurst = now;
+
+  const rect = popBtn.getBoundingClientRect();
+  spawnBurst(rect.left + rect.width / 2, rect.top);
+}
+
+popBtn.addEventListener('click', triggerFromButton);
+
+popBtn.addEventListener(
+  'touchend',
+  (e) => {
+    e.preventDefault();
+    triggerFromButton();
+  },
+  { passive: false }
+);
