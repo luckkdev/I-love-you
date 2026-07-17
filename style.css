@@ -175,6 +175,9 @@ body {
   cursor: pointer;
   box-shadow: 0 6px 0 var(--red-deep);
   transition: transform 0.12s ease, box-shadow 0.12s ease;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
 
 .pop-btn:hover { transform: translateY(-2px); }
