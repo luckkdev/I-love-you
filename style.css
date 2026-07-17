@@ -180,15 +180,26 @@ body {
   user-select: none;
 }
 
-.pop-btn:hover { transform: translateY(-2px); }
-.pop-btn:active {
-  transform: translateY(4px);
-  box-shadow: 0 2px 0 var(--red-deep);
-}
-
 .pop-btn:focus-visible {
   outline: 3px solid var(--ink);
   outline-offset: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pop-btn:hover { transform: translateY(-2px); }
+  .pop-btn:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 var(--red-deep);
+  }
+}
+
+@media (hover: none) {
+  /* on touch devices, only show the "pressed" feedback briefly via :active,
+     it clears itself instead of sticking after the tap ends */
+  .pop-btn:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 var(--red-deep);
+  }
 }
 
 .burst-heart {
